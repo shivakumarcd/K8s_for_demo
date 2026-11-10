@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spring-demo-app
+  namespace: argocd                 # Applications always live in the argocd namespace
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/shivakumarcd/K8s_for_demo.git
+    targetRevision: main            # branch to watch
+    path: app                       # folder to sync
+  destination:
+    server: https://kubernetes.default.svc   # "this same cluster"
+    namespace: default              # where your app's pods go
+  syncPolicy:
+    automated:
+      prune: true                   # delete cluster objects removed from git
+      selfHeal: true                # undo manual changes made with kubectl
