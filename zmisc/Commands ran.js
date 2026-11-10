@@ -1,3 +1,13 @@
+Argo CD {
+  kubectl create namespace argocd
+  kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+  kubectl port-forward svc/argocd-server -n argocd 8081:443
+  https://localhost:8081
+  initial pwd-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+          e5SYwu47OoAWTQ6S
+}
+
 docker {
   docker build -t demo_app_img_name:v2 .
   shift img to kind env-   kind load docker-image demo_app_img_name:v2 --name spring-lab
