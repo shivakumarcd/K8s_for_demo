@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: spring-container-name   # name of the container inside the pod
-          image: shivakumardwd/demo_app_img_name_on_hub:e392d1baccdf744ae0c6028e821875d16538fa14
+          image: shivakumardwd/demo_app_img_name_on_hub:25d73d37787a08b6c1b2697952ce7bbdd9376e5a
           ports:
             - containerPort: 8080       # port your Spring app listens on
