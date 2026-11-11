@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: spring-deployment-name          # name of this Deployment object
 spec:
-  replicas: 2                           # the 2 pods you wanted
+  replicas: 3                           # the 2 pods you wanted
   selector:
     matchLabels:
       app: spring-label-value           # (A) "manage pods that have this label"
