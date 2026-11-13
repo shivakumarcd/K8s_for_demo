@@ -1,13 +1,3 @@
-Argo CD {
-  kubectl create namespace argocd
-  kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-  kubectl port-forward svc/argocd-server -n argocd 8081:443
-  https://localhost:8081
-  initial pwd-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
-          e5SYwu47OoAWTQ6S
-}
-
 docker {
   docker build -t demo_app_img_name:v2 .
   shift img to kind env-   kind load docker-image demo_app_img_name:v2 --name spring-lab
@@ -18,7 +8,7 @@ docker {
   docker push shivakumardwd/demo_app_img_name_on_hub:v2
 }
 
-label and logs {
+kubectl apply, label and logs {
   kubectl get pods --show-labels
   kubectl logs -l app=<result>
 
@@ -27,27 +17,27 @@ label and logs {
     or
     kubectl logs -f deployment/spring-deployment-name
 
+
+
+    kubectl apply -f deployment.yml
+    kubectl get pods -o wide
+
+    kubectl apply -f service.yaml
+    kubectl get service -o wide
 }
 
+kind {
+    kind delete cluster --name spring-lab
+    kubctl get nodes
 
+    kind create cluster --name spring-lab --config kind-config.yaml
+    kubctl get nodes
 
-kind delete cluster --name spring-lab
-kubctl get nodes
+    kind load docker-image demo_app_img_name:v1 --name spring-lab
+    docker exec spring-lab-worker crictl images | grep spring-app
+}
 
-kind create cluster --name spring-lab --config kind-config.yaml
-kubctl get nodes
-
-kind load docker-image demo_app_img_name:v1 --name spring-lab
-docker exec spring-lab-worker crictl images | grep spring-app
-
-kubectl apply -f deployment.yml
-kubectl get pods -o wide
-
-kubectl apply -f service.yaml
-kubectl get service -o wide
-
-
-Helm {
+Helm-traefik {
     # Linux (official install script)
     curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
     helm version
@@ -57,3 +47,12 @@ Helm {
     -f traefik-values.yaml
 }
 
+Argo CD {
+    kubectl create namespace argocd
+    kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+    kubectl port-forward svc/argocd-server -n argocd 8081:443
+    https://localhost:8081
+    initial pwd-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+    e5SYwu47OoAWTQ6S
+  }

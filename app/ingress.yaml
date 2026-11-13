@@ -5,7 +5,7 @@ metadata:                             # Resource metadata
 spec:                                 # Ingress specification
   ingressClassName: my-traefik        # earlier was NGINX Ingress Controller processes these rules
   rules:                              # List of routing rules
-    - host: localhost                 # Match requests for example.com
+    - host: localhost2                 # Match requests for example.com
       http:                           # HTTP routing configuration
         paths:                        # URL paths to match
           - path: /hello                   # Match URLs starting with /api
