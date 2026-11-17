@@ -51,8 +51,35 @@ Argo CD {
     kubectl create namespace argocd
     kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+    #once ready
+    kubectl apply -f argocd/application.yaml
+
     kubectl port-forward svc/argocd-server -n argocd 8081:443
     https://localhost:8081
     initial pwd-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
     e5SYwu47OoAWTQ6S
-  }
+
+    # Scale down Deployments
+    kubectl scale deployment --replicas=0 --all -n argocd
+    # Scale down StatefulSets (like argocd-application-controller and argocd-redis if configured as such)
+    kubectl scale statefulset --replicas=0 --all -n argocd
+    #bring backup
+    kubectl scale deployment --replicas=1 -n argocd --all
+    kubectl scale statefulset --replicas=1 -n argocd --all
+}
+
+AWS {
+    Loggin and cluster cration/context
+    Created IAM user. Create Key/secrete key. Using which logged in from local terminal using "aws config" command;
+    Used "eks" command to create cluster.
+    Used Kubectl to interact with cluster.
+    "kubectl config context/.." command to switch between AWS and local king cluster...
+
+    Replicated kind work in AWS..
+    Same apply
+    But, Installed Traefik with default value -  no overriding; Gives LB.
+    Issue of not installing ingress.yaml and class name {
+        When traefik in Helm-installed with xyz release name, looks it created ingressClass with xyz.
+        This same xyz should be mentioned in ingress.yml-rules file.
+    }
+}
